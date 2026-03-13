@@ -1,0 +1,471 @@
+/*resolucion ideal 360 * 640*/
+
+
+html{
+height:100%;	
+}
+
+body{
+margin: 0;
+padding: 0;
+font-family: 'Yatra One', cursive; /*titulo*/
+font-family: 'Arima Madurai', cursive; /* cuerpo*/
+background-color:#000000;
+height:100%;
+-webkit-user-select: none;  /* Chrome all / Safari all */
+-moz-user-select: none;     /* Firefox all */
+-ms-user-select: none;      /* IE 10+ */
+user-select: none;
+background-image: url("../images/fondo_body.png");
+background-repeat:repeat;
+}
+
+#contenedor_ui{
+overflow:hidden;
+width:100%;
+min-width:360px;
+min-height:640px;
+max-width:360px;
+max-height:640px;
+height:100%;
+/*max-height:960px;*/
+/*max-width:600px;*/
+margin: 0 auto;
+padding: 0px;
+/*background-color:#D9B48E;*/
+text-align:center;
+box-sizing:border-box;
+position:relative;
+}
+
+
+#jugador1{
+cursor:pointer;
+}
+
+#jugadores{
+cursor:pointer;
+}
+
+.boton-blanco{
+	font-size:20px;
+	font-weight:bold;
+	border: 1px solid #FFF;
+	padding: 15px;
+	cursor:pointer;
+}
+#confirmar-salir{
+	display:none;
+}
+#confirmar-salir.mostrar{
+	display:block;
+}
+
+#contenedor-superior-interfaz{
+	top:0px;	
+	transition: all 0.6s;
+}
+
+#contenedor-superior-interfaz.bajar{
+	top:650px;	
+}
+
+#boton-principal{
+	background-image:url(../images/boton-principal.png); 
+	cursor:pointer;
+}
+
+
+#boton-principal.procesando{
+	background-image:url(../images/boton-principal-proceso.png); 
+}
+
+
+#contenedor-inferior-interfaz.mostrar{
+	bottom: 0;	
+}
+
+#contenedor-inferior-interfaz{
+	bottom: -650px;
+	transition: all 0.6s;
+}
+
+
+#tesoros{
+	bottom:-300px;	
+	transition: all 0.4s;
+}
+
+#tesoros.mostrar{
+	bottom:0px;	
+}
+
+#momia.mostrar{
+	bottom: 100px;		
+}
+
+#momia{
+	background-image:url(../images/momia.png);
+	background-size: 90%;
+    background-repeat: no-repeat;
+    background-position: 50% 0;;
+	bottom: -650px;
+	transition: bottom 0.6s;	
+}
+
+#momia.llave{
+	background-image:url(../images/momia-llave.png);
+}
+
+#piedras-controles.mostrar{
+	bottom: 0	
+}
+
+#piedras-controles{
+	bottom: -50px;
+	transition: all 0.6s;
+}
+
+
+#controles-momia.mostrar{
+padding: 10px 20px 20px 20px; 
+width:100%;
+}
+
+#controles-momia{
+padding-top: 200px;
+transition: all 0.4s;
+height:160px;
+box-sizing:border-box;
+overflow:hidden;
+}
+
+#trampa1-tapa, #trampa2-tapa, #trampa3-tapa, #trampa4-tapa{
+	background-position: 50% 0;	
+	transition: all 0.3s;
+}
+
+#trampa1-tapa.mostrar, #trampa2-tapa.mostrar, #trampa3-tapa.mostrar, #trampa4-tapa.mostrar{
+	background-position: 50% -60px;	
+	cursor:pointer;
+}
+
+#derecha-momia.activo{
+	background-position: 50% 10px;
+}
+
+#derecha-momia{
+	background-position: 50% -87px;
+}
+
+#izquierda-momia.activo{
+	background-position: 50% 10px;
+}
+
+#izquierda-momia{
+	background-position: 50% -87px;
+}
+
+#textos-ayuda{
+	font-size:14px;
+	color: #140d06;
+	line-height:18px;
+	padding:20px 20px 0 10px;
+	box-sizing:border-box;
+}
+
+#volver-menu, .item-ayuda{
+	text-align:center;
+	background-color: #76461b;	
+	border-color: #eed519;
+	border-style: double;
+	border-width: 1px;
+	color: #dcba38;
+	padding: 15px;
+	cursor: pointer;
+	font-size:15px;
+	line-height:15px;
+}
+
+#volver-menu{
+	margin-bottom:20px;
+	display:none;
+	}
+#volver-menu.mostrar{
+	display:block;
+	}
+
+#contenidos-ayuda{
+	display:none;
+}
+
+#contenidos-ayuda.mostrar{
+	display:block;	
+}
+
+#menu-ayuda{
+	display:none;
+}
+
+#menu-ayuda.mostrar{
+	display:block;	
+}
+
+.seccion-ayuda{
+	display:none;	
+}
+.seccion-ayuda.mostrar{
+	display:block;	
+}
+
+
+/*estilos texto*/
+
+.titulo{
+	font-size: 24px;	
+	color:#27190c;
+	font-family: "Yatra One";
+	letter-spacing: -1px;	
+	text-align:center;	
+	margin-top: -10px;
+}
+
+.sub{
+	color:#27190c;	
+	font-size:14px;
+	font-weight:bold;
+}
+
+.sub2{
+	color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    background-color: #130f0c;
+    padding: 10px;
+}
+
+.destacado-reglas{
+	font-size: 14px;
+	font-weight:bold;	
+	padding: 10px;
+	border: 1px solid #27190c;
+	line-height:16px;
+	text-align:center;
+	background-color:#d8a881
+}
+
+.casillas{
+	font-size: 13px;		
+	padding: 10px 10px 10px 20px;
+	background-color: #6f4e32;
+	border: 2px dotted #332416;
+	color: #c5956d;
+	margin-bottom:10px;
+}
+.casillas div p b:first-child{
+	font-size: 14px;	
+	text-transform:uppercase;
+	color: #d3af92
+}
+
+.img-casilla{
+	height: 100px; 
+	width: 100px;
+	margin-bottom:10px;	
+}
+
+.img-casilla.larga{
+	height: 200px; 
+	width: 100px;
+	margin-bottom:10px;	
+}
+
+
+
+.img-casilla.tarjeta{
+	height: 200px; 
+	width: 150px;	
+	margin-bottom:10px;		
+}
+
+hr{
+	border-color:#79491a;
+	border-width: 4px;	
+	width: 20%;
+	margin: 30px auto;
+}
+
+/* primero se desactiva el estilo normal de listado*/
+ol >li{
+	list-style:none;	
+}
+
+/* se crea un nuevo contador en los listados*/
+ol {
+    counter-reset: i 0;
+	padding-left: 25px;
+}
+
+/* se aplican los nuevos estilos al listado*/
+ol > li:before {
+    content: counter(i) ".";
+    counter-increment: i;   
+    color: #27190c;
+    font-weight: bold;
+    display: block;
+    float: left;
+    margin-right: 10px;
+    margin-left: -20px;
+}
+
+ul{
+	margin: 20px 0;
+}
+
+/*cosas muy viejas*/
+
+
+#turno{
+width:90%;
+background-color:#FF9900;
+padding: 20px 0px 20px 0px;
+color:#FFFFFF;
+margin: 0 auto;
+}
+
+#turno:hover{
+cursor:pointer;
+}
+
+
+
+#informacion{
+display:none;
+}
+
+#trampas{
+width:100%; 
+height:60px;
+background-color:#000000;
+overflow:hidden;
+margin-bottom:10px;
+
+}
+
+
+
+#trampas1, #trampas2, #trampas3, #trampas4{
+width:25%;
+float:left;
+height:100%;
+background-color:#CCCCCC;
+border-style:solid;
+border-color:#FFFFFF;
+border-width:2px;
+box-sizing:border-box;
+padding: 10px 3px;
+ 
+
+}
+
+
+#trampas div.activa{
+background-color:#009900;
+}
+
+
+#puertas{
+background-color:#66CCFF;
+}
+
+
+
+
+.ocultar{
+display:none;
+
+}
+
+
+#ocultartextos{
+background-color:#669900;
+padding:10px 0px 10px 0px;
+}
+
+#ocultartextos:hover{
+cursor:pointer;
+background-color:#CCCCCC;
+}
+
+
+#contenedor_sigilo{
+width:100%;
+height:20px;
+background-color:#CCCCCC;
+padding: 0px 1px;
+}
+
+#barra_sigilo{
+background-color:#FFFFFF;
+width:20%;
+height:18px;
+
+}
+
+.pasos-momia{
+width:20%;
+float:left;
+height:100%;
+background-color:#CCCCCC;
+border-style:solid;
+border-color:#FFFFFF;
+border-width:2px;
+box-sizing:border-box;
+padding-top:5px;
+
+}
+
+
+#pies-momia{
+transition: margin-left 0.5s;
+}
+
+
+#imagen-momia{
+padding-top: 150px;
+transition: padding-top 0.5s;
+}
+
+#imagen-momia.activa{
+padding-top: 60px;
+transition: padding-top 0.7s;
+}
+
+.anuncio{
+border-style: solid;
+border-width: 2px;
+border-color: #FFFFFF;
+padding: 20px;
+box-sizing:border-box;
+border-radius: 20px;
+	
+}
+
+#info-efecto-trampas{
+	display:none;
+	
+}
+
+
+#info-efecto-trampas.mostrar{
+	display:block;
+	
+}
+
+#aviso-no-cambios{
+	display:none;	
+}
+
+#aviso-no-cambios.mostrar{
+	display:block;	
+}

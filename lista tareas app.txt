@@ -1,0 +1,33 @@
+*** alojar el app en algun sitio, considerar MAW_games (buscar donde alojar el app)
+*** corregir app para que sea "responsive" (resoluciones más pequeñas) [APLAZAR]
+*** actualizar reglas[ok]
+*** revisar al detalle todo el App
+
+----------------
+
+CAMBIOS DIGITAL
+
+1. agregar vinculo a seccion momias en presentación app
+2. agregar imagen de casilla puerta [ok]
+3. actualizar imagen de casilla roca [ok]
+4. actualizar imagen de casilla agujero [ok]
+5. actualizar imagen de tarjeta tesoro en app[ok]
+
+
+cambion en el impreso-----------------------------
+
+seccion 3. preparación del juego
+
+- cambiar "las 5 momias" por "las 5 fichas de momia"[ok]
+
+seccion casillas
+
+- cambiar "casillas de doble tesoro" por "casillas doble tesoro"[ok]
+- cambiar "no se obligatorio" por "no es obligatorio"[ok]
+- cambiar "casilla de reliquia" por "casilla reliquia"[ok]
+- cambiar texto de casilla llave  en impreso por el texto en el app[ok]
+- cambiar "Las momias van a estas casillas cuando se indique" por "Las momias van a estas casillas cuando una Tarjeta Reliquia lo indique."[ok]
+
+- cambiar texto de casilla pasaje en impreso por texto en app[ok]
+
+ 

@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset= "UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<link rel="stylesheet" type="text/css" href="styles/styles_main.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="scripts/scripts_main.js"></script>
+<script src="scripts/jquery.fullscreen.js"></script>
+
+<!-- tipografias-->
+<link href="https://fonts.googleapis.com/css?family=Arima+Madurai|Yatra+One" rel="stylesheet">
+
+</head>
+<body>
+
+
+<div id="contenedor_ui">
+
+<div id="confirmar-salir" style="background-color: rgba(0, 0, 0, 0.8); width: 100%; height:100%; position:absolute; z-index: 1100; color: #FFF; text-align:left; padding:30px; box-sizing: border-box; font-size:12px; line-height:18px; text-align:center;">
+<p>
+<span style="font-size:30px; line-height:35px;">Estás por reiniciar el App.<br/><br/><b>¿Estás seguro?</b><br/><br/></span>
+</p>
+<div id="boton-cancelar" class="boton-blanco">
+Mejor no
+</div>
+
+<div id="boton-aceptar" class="boton-blanco">
+Si, seguro
+</div>
+</div>
+
+<div id="bienvenida" style="background-color: rgba(0, 0, 0, 0.8); width: 100%; height:100%; position:absolute; z-index: 1000; color: #FFF; text-align:left; padding:30px 50px 0 20px; box-sizing: border-box; font-size:12px; line-height:18px; display:none;">
+
+<span style="font-size:30px; line-height:35px;">Bienvenido a <br/><b>Momias y Tesoros</b><br/><br/></span>
+
+<p>
+Al hacer clic en <b>jugar</b>, entrarás en el modo pantalla completa, pero no te preocupes, puedes salir y volver a entrar en ese modo usando este boton:
+</p>
+<div style="width: 30px; height: 30px; background-image: url(images/pc-tuto.png); background-repeat: no-repeat; background-size:100%;">
+</div>
+<p>
+... ubicado en la parte superior izquierda de la pantalla y que siempre estará disponible
+</p>
+
+<p id="jugar-juego" class="boton-blanco" style="display: none; cursor:pointer;">Jugar</p>
+
+
+</div>
+
+
+<!-- miscelaneos-->
+
+<!--
+<div id="boton-pantalla-completa" class="full" style="width: 40px; height: 50px;; position: absolute; top:0; left: 0; z-index: 100; background-image: url(images/pantalla-completa.png); background-repeat: no-repeat; background-size:100%; cursor:pointer;">
+</div>
+-->
+
+<!--pantalla 1: cabezote e inicio del juego-->
+
+<div id="presentacion" class="oculta">
+
+
+<div id="cabezote" style="position:absolute; width:100%; height:200px; margin: 60% auto 0 auto; box-sizing:border-box; font-size:30px; background-image:url(images/cabezote-g.png); background-repeat:no-repeat; background-position: center; background-size:80%; z-index:2;">
+</div>
+
+<div id="fondo-presentacion" style="position:absolute; top:0; bottom: 0; left: 0; right: 0; background-image:url(images/fondo_titulo.png); background-repeat:no-repeat; background-size:100%; z-index:-100; ">
+</div>
+
+<div id="muro-arriba-presentacion" style="height:200px; position:absolute; top: 0; left: 0; right: 0; background-image:url(images/muro-arriba-titulo.png); background-position: bottom; background-repeat:no-repeat; background-size:cover; z-index:-90;">
+</div>
+
+<div id="muro-abajo-presentacion" style="height:200px; position:absolute; bottom:0; left: 0; right: 0; background-image:url(images/muro-abajo-titulo.png); background-repeat:no-repeat; background-size:100%; z-index:1; ">
+
+<!-- pantalla 1-1: selección de jugadores-->
+
+<div id="jugando" style="overflow:hidden; padding-top:60px; width: 80%; margin: 0 auto;">
+
+<div id="jugador1" class="boton-jugador open" style="position:relative; background-image:url(images/boton-j1.png); background-repeat: no-repeat; background-size:100%; width:45%; height: 120px; box-sizing:border-box; float:left;">
+</div>
+<div style="position:relative; float:left; width:10%; height: 10px; box-sizing:border-box;">
+</div>
+<div id="jugadores" class="boton-jugador open" style="position:relative; background-image:url(images/boton-otros.png); background-repeat: no-repeat; background-size:100%; width:45%; height: 120px; box-sizing:border-box; float:left;">
+
+</div>
+</div><!-- fin pantalla 1-1: seleccion de jugadores-->
+
+</div>
+
+</div><!-- fin pantalla 1: cabezote e inicio del juego-->
+
+
+
+
+
+
+
+<!-- pantalla 2: interfaz del juego /////////////////////////////////////////////////////////-->
+
+
+
+<div id="interfaz-jugador" class="ocultar" style="position:relative; width:100%; height: 100%; overflow: hidden;"><!-- inicio interfaz de jugador-->
+
+<div id="fondo-interfaz" style="position:absolute; z-index:-50; background-image:url(images/fondo-interfaz.png); background-size:100%; top: 0; bottom: 0; left: 0; right: 0;">
+</div>
+
+<!-- poner top en div "contenedor-superior-interfaz" positivo para desplazar todo el contenido de la parte superior y asi poder presentar la pantalla de ayuda-->
+<div id="contenedor-superior-interfaz" style="width:100%; height: 100%; position:absolute; z-index:10;">
+
+<!-- las capas estan organizadas de abajo hacia arriba -->
+<div id="muro-bajo-trampas" style="position:absolute; z-index:-43; top: 100px; height:250px; width:100%; background-image:url(images/muro-bajo-trampas.png); background-size:100%; background-repeat: no-repeat; background-position:bottom;">
+
+</div>
+<div id="muro-bajo-boton"  style="position:absolute; top:-650px; z-index:-42; width:100%; height: 900px; background-image:url(images/muro-bajo-boton.png); background-size:100%; background-repeat: no-repeat; background-position: top">
+
+		<!-- pantalla 3: ayuda-->
+		<div id="pantalla-ayuda">
+		<div id="muro-limite-ayuda" style="width:100%; height: 110px; position:absolute; z-index:-41;top: 0; background-image:url(images/muro-limite-ayuda.png); background-size:100%; background-repeat: no-repeat; background-position:bottom;">
+		</div>
+		<div id="boton-cerrar-ayuda" style="text-align:center; width:100%; height: 110px; position:absolute; z-index:-40;top: 0;">
+
+
+		<div id="boton-cerrar-ayuda-btn" style="height: 100%; width: 100px; background-image:url(images/boton-cerrar-ayuda.png); background-size:100%; background-repeat: no-repeat; background-position:top; display:inline-block; cursor:pointer;">
+		</div>
+
+		</div>
+		<div id="contenedor-texto-ayuda" style="overflow:hidden; width: 100%; height:550px; position: absolute; top: 70px; background-image:url(images/fondo-textos-ayuda.png); background-size:100%; background-repeat: no-repeat; background-position:top; padding:25px 40px 110px 40px; z-index:39; box-sizing:border-box;">
+		
+		<!-- menu de ayuda-->
+		
+		<div id="menu-ayuda" class="mostrar">
+		<div id="menu1" class="item-ayuda">
+		1. App del juego
+		</div>
+		<div id="menu2" class="item-ayuda">
+		2. Cómo jugar y ganar
+		</div>
+		<div id="menu3" class="item-ayuda">
+		3. Preparación del Juego
+		</div>
+		<div id="menu4" class="item-ayuda">
+		4. Turnos
+		</div>
+		<div id="menu5" class="item-ayuda">
+		5. Tablero
+		</div>
+		<div id="menu6" class="item-ayuda">
+		6. Casillas
+		</div>
+		<div id="menu7" class="item-ayuda">
+		7. Momias
+		</div>
+		<div id="menu8" class="item-ayuda">
+		8. Tarjetas
+		</div>	
+		</div>
+		<div id="volver-menu"> -- Contenido -- </div>
+		
+		
+		<div id="textos-ayuda" style="position:relative; height:100%; text-align:left; overflow: auto;">
+		
+		
+		
+		<div id="contenidos-ayuda">
+		
+		<!-- inicio texto ayuda-->	
+		<div id="menu1-c" class="seccion-ayuda">
+		<p class="titulo"><b>1</b> <br/><br/>App del juego</p>
+		
+		<p class="sub" style="text-align:center;">Botón turno</p>
+		<p>		
+		<div style="max-width:100%; text-align:center;">
+		<img src="images/boton-principal.png" style="width:80%; margin: 0 auto;">
+		</div>
+		<br/>
+		Usas este botón para jugar. Al darle clic activas las trampas y controlas la momia.		
+		</p>
+		
+		<p class="sub" style="text-align:center;">Barra de menu</p>
+		<p>
+		<div style="max-width:100%; text-align:center;">
+		<img src="images/botones-menu-ayuda.png" style="width:80%; margin: 0 auto;">
+		</div>
+		<br/>
+		Usas estos botones para:<br/> 1. consultar la ayuda, usando el boton <b>"?"</b>;<br/>2. Revisar los tesoros que debes reunir para pasar por cada una de las puertas en el juego, usando el botón <b>"tesoros"</b>. Este botón solo estará disponible para el <b>jugador 1.</b>; <br/>3. Reiniciar el juego, usando el botón "X".
+		</p>
+		
+		<!--<p class="sub" style="text-align:center;">Botón pantalla completa</p>
+		<p>		
+		<div style="max-width:100%; text-align:center;">
+		<img src="images/pc-tuto.png" style="width:20%; margin: 0 auto;">
+		</div>
+		<br/>
+		Usas este boton para entrar o salir del modo pantalla completa.
+		</p>
+		-->
+		
+		<p class="sub" style="text-align:center;">Trampas</p>
+		<p>		
+		<div style="max-width:100%; text-align:center;">
+		<img src="images/trampas-tuto.png" style="width:100%; margin: 0 auto;">
+		</div>
+		<br/>
+		En esta área se mostrarán las trampas activas luego de dar clic en el boton principal.
+		Puedes hacer clic sobre las trampas que se activen para conocer su efecto.
+		</p>
+		
+		<p class="sub" style="text-align:center;">Momia</p>
+		<p>		
+		<div style="max-width:100%; text-align:center;">
+		<img src="images/momia-tuto.png" style="width:100%; margin: 0 auto;">
+		</div>
+		<br/>
+		Te presentamos a nuestra amiga la momia. Si la observas verás que puede llevar una llave en su mano o no, todo depende de tu suerte. Para saber más sobre ella, ve a la sección <b>momias</b> de este instructivo.
+		</p>
+		
+		<p class="sub" style="text-align:center;">Movimientos de la momia</p>
+		<p>
+		<div style="max-width:100%; text-align:center;">
+		<img src="images/controles-tuto.png" style="width:100%; margin: 0 auto;">
+		</div>
+		<br/>
+		En esta área se muestran los movimientos de la momia. El número en el centro muestra las casillas que la momia se puede desplazar. Las flechas roja y azul indican en que dirección debe girar la momia. Para más información sobre como se mueven las momias ve a la sección <b>momias.</b>
+		</p>
+		
+		<p class="sub" style="text-align:center;">Tesoros requeridos</p>
+		<p>
+		<div style="max-width:100%; text-align:center;">
+		<img src="images/tesoros-tuto.png" style="width:100%; margin: 0 auto;">
+		</div>
+		<br/>
+		Al iniciar el juego, si eres el jugador 1 o durante la partida al dar clic en el boton <b>tesoros,</b> podras ver esta información. Aquí se indica la cantidad de Myts que debes reunir antes de dirigirte a la puerta 1, ubicada en la zona central del juego, a la puerta 2, ubicada en la zona intermedia o a la puerta 3, ubicada en el nivel exterior del tablero. <b>Si no eres el jugador 1, no tendrás acceso a esta información. </b>
+		<br/><br/>
+		
+		<hr>
+		
+		<span class="sub">Las funciones del App son:</span><br/>		
+
+		<ol>
+		<li>Mostrar la cantidad de Myts que se necesitan para abrir cada puerta.</li>
+		<li>Mostrar las trampas que se activan en cada turno.</li>
+		<li>Indicar los movimientos de las momias.</li>
+		</ol>
+
+		<span class="sub">Cómo usar el App</span><br/>
+
+		<ol>
+	<li>El jugador 1 usará la opción “J1” en el App, los demás la opción “Otros Jugadores” </li>
+		<li>El jugador 1 informa los Myts necesarios para abrir la puerta de cada nivel.</li>
+		<li>En cada turno y antes de mover las fichas en el tablero, el jugador que corresponda debe usar el botón <b>“Turno”</b> en su pantalla y hacer los cambios indicados.</li>
+</ol>
+
+		</p>
+		
+		</div>
+		
+		<div id="menu2-c" class="seccion-ayuda">
+		<p class="titulo"><b>2</b> <br/><br/>Cómo jugar y ganar</p>
+		
+		<p>
+		El ganador del juego es la primera persona en cruzar la puerta que los jugadores escojan como fin del juego. Dependiendo de la ubicación y cantidad de llaves en el tablero, que serán colocadas allí por el jugador 1 y de la puerta escogida como fin del juego, la partida puede ser más corta o más larga.
+		</p>
+		<p>
+		Pueden jugar una partida en donde la puerta final es la que está en la zona exterior del tablero y exigir una llave para pasar de una zona a otra; también pueden escoger la puerta intermedia como final y pedir 1 llave para atravesar la puerta inicial y 2 para la puerta intermadia. <b>Sin importar el tipo de partida, el ganador es quien primero logre cruzar la puerta escogida.</b>
+		</p>
+		</div>
+		
+		<div id="menu3-c" class="seccion-ayuda">
+		<p class="titulo"> <b>3</b> <br/><br/>Preparación del juego</p>
+		
+		<p>
+		Antes de iniciar la partida deben organizar en grupos las 8 tarjetas llave, los 5 token de llave, las 5 fichas de momia, las 4 fichas de jugador, las 50 Tarjetas Tesoro y las 40 Tarjetas Reliquia. Los grupos deben ponerse fuera del tablero antes de iniciar la partida.<p>
+		<p class="sub">Luego de preparar el juego se asignarán los turnos así:<br/>
+		<ol>
+			<li>Cada jugador escoge la ficha con la que va a jugar sin ponerla en el tablero.</li>
+			<li>Cada jugador toma una Tarjeta Tesoro, la persona con la tarjeta más valiosa toma el turno 1. Si hay empate los jugadores empatados toman otra Tarjeta Tesoro hasta que alguno gane. Los demás jugadores toman su turno <b>hacia la derecha del jugador ganador que será el número 1.</b></li>
+			<li>El jugador 1 debe girar el tablero hasta que el nombre del juego quede frente a él, luego pondrá las momias y los token de llave en las casillas que quiera siguiendo estas indicaciones:</li>
+			<ul>
+			<li>Colocar 1 momia y 1 token de llave en el nivel central.</li>
+			<li>Colocar máximo 2 momias y 2 token de llave en el nivel intermedio.</li>
+			<li>Colocar máximo 2 momias y 2 token de llave en nivel exterior.</li>
+			</ul>
+		
+			<p>
+			Hay ciertas reglas que se deben tener en cuenta para ubicar los token de llave y las fichas de momia, para conocerlas puedes dirigirte a la sección <b>Casillas > Casillas llave</b> y a la sección <b>Momias</b> respectivamente.
+			</p>
+		
+			<li>Cada jugador, usando un dispositivo con acceso a internet (pc, tablet, dispositivos móviles, etc.) debe acceder al App del juego, pero si estás leyendo esto es porque ¡ya lo descubriste! :) </li>
+		</ol>
+		</p>
+		
+		<div class="destacado-reglas">
+		<p>
+		Recuerda que la partida puede hacerse más larga o más corta según los elementos que se incluyan en el juego, por eso todos <b>los jugadores deben estar de acuerdo sobre qué tan extensa será la partida.</b>
+		</p>
+		</div>
+		
+		</div>
+		
+		<div id="menu4-c" class="seccion-ayuda">
+		<p class="titulo"> <b>4</b> <br/><br/>Turnos</p>
+		<p>
+		Antes de empezar el juego todos los jugadores tendrán sus fichas fuera del tablero y jugarán cada turno así:</p>
+		<p class="destacado-reglas">
+		
+		<b>Jugando el primer turno de cada jugador</b><br/><br/>
+		<span style="font-weight:normal;">Todos los jugadores en su primer turno deben ubicar su ficha en el centro del tablero y tomar inmediatamente dos Tarjetas Tesoro, luego el jugador en turno seguirá los pasos siguientes y así terminará su turno.</span>
+		
+		</p>
+		<p>
+		<ol>
+		<li>El jugador en turno activa el botón <b>“Turno”</b> en el App.</li>
+		<li>El jugador en turno revisa las trampas que se activaron según se muestra en el App y luego ve si alguien fue afectado incluyéndose él mismo.</li>
+		<li>El jugador en turno indica a los demás si las momias se han movido o no; primero debe girar las momias y después moverlas según las indicaciones del App. <b>Si al final del movimiento de la momia, ella queda mirando directamente al jugador en turno y el jugador no tiene como defenderse, deberá ir a su mazmorra y allí terminará su turno.</b></li>
+		<li>El jugador en turno debe mover su ficha mínimo 1 casilla y máximo 8. No está permitido moverse en diagonal, solamente en línea recta. </li>		
+		</ol>
+		</p>
+		
+		<div class="destacado-reglas">
+		<p>
+		Recuerda que no puedes pasar dos veces por la misma casilla durante el mismo turno, tampoco podrás terminar tu movimiento en una casilla ocupada por otro jugador aunque sea la casilla donde están los token de llave o las casillas puerta. Si al final de tu movimiento estás en una casilla de activación podrás <b>usar en ese momento</b> una tarjeta reliquia de ese tipo y luego terminará tu turno.
+		</p>
+		</div>	
+		
+		</div>
+		
+		<div id="menu5-c" class="seccion-ayuda">
+		<p class="titulo"> <b>5</b> <br/><br/>Tablero</p>
+		<p>
+		El tablero está dividido en tres zonas (central, intermedia y exterior) que están demarcadas por muros gruesos e identificadas por colores.</p>
+
+		<p class="sub">Pasando de Zona</p>
+<p>
+		Para pasar de una zona a la siguiente, los jugadores deben recoger la llave o las llaves que abren la puerta a la siguiente zona además de reunir las Tarjetas Tesoro con los <i title="Valor indicado con un número en cada Tarjeta Tesoro.">Myts*</i> que deben ser entregados como pago para abrir las puertas. <b>La cantidad de Myts que se necesita para pasar de una zona a otra aparece en la pantalla del jugador 1 y él es el encargado de informarlo a los demás jugadores.</b>
+</p>
+<p>
+		Para abrir la puerta el jugador debe pararse sobre una de las casillas puerta, entregar las Tarjetas Tesoro por el valor que se requiere y entregar la llave o llaves de la zona. El jugador que llega a una puerta para abrirla, debe esperar hasta su próximo turno para seguir moviéndose. <b>Las casillas puerta son casillas seguras en donde ningún ataque tiene efecto. </b>
+</p>
+<p>
+		Si el jugador tiene más tesoros de los que necesita para seguir avanzando, podrá guardarlos. <b>Las tarjetas usadas siempre se colocan debajo de las demás de su mismo grupo. </b>
+</p>
+		
+		<p>
+		----------------<br/>
+		<em>*Valor indicado con un número en cada Tarjeta Tesoro.</em>
+		<br/>----------------
+		</p>
+		
+		<p class="destacado-reglas">
+		Los jugadores que no logren llegar a la puerta final de la partida, suman los Myts de sus Tarjetas Tesoro, reciben 5 Myts si lograron llegar a la zona elegida como fin del juego, reciben 5 Myts por cada Tarjeta Reliquia que tengan y 10 Myts más por cada llave. Al sumar los Myts sabrán quien es el segundo, tercero y cuarto lugar del juego.		
+		</p>
+		</div>
+		
+		<div id="menu6-c" class="seccion-ayuda">
+		<p class="titulo"><b>6</b> <br/><br/>Casillas</p>
+		<P>
+		El tablero es una gran pirámide llena de trampas, tesoros y reliquias. Los jugadores se encontrarán en su camino con las siguientes casillas:
+		</P>
+		<P class="sub2">Casillas de acción</P>
+				
+		<div class="casillas">
+		<div class="img-casilla" style="background-image: url(images/casilla-dt.png); background-position:center; background-repeat: no-repeat; background-size: 100%">
+		
+		</div>
+		<div class="texto-casilla">
+		<p><b>Casillas doble tesoro</b><br/>
+		El jugador toma dos Tarjetas Tesoro si así lo quiere, no es obligatorio hacerlo.
+		</p>
+		</div>
+		</div>	
+		
+				
+		<div class="casillas">
+		<div class="img-casilla" style="background-image: url(images/casilla-t.png); background-position:center; background-repeat: no-repeat; background-size: 100%">
+		
+		</div>
+		<div class="texto-casilla">
+		<p><b>Casillas tesoro</b><br/>
+		El jugador toma una Tarjeta Tesoro si así lo quiere, no es obligatorio hacerlo.
+		</p>
+		</div>
+		</div>	
+		
+				
+		<div class="casillas">		
+		<div class="img-casilla" style="background-image: url(images/casilla-reli.png); background-position:center; background-repeat: no-repeat; background-size: 100%">
+		
+		</div>
+		<div class="texto-casilla">
+		<p><b>Casilla reliquia</b><br/>
+		El jugador toma una Tarjeta Reliquia si así lo quiere, no es obligatorio hacerlo.
+		</p>
+		</div>
+		</div>	
+		
+				
+		<div class="casillas">
+		<div class="img-casilla" style="background-image: url(images/casilla-acti.png); background-position:center; background-repeat: no-repeat; background-size: 100%">
+		
+		</div>
+		<div class="texto-casilla">
+		<p><b>Casilla de activación</b><br/>
+		El jugador puede usar las Tarjetas Reliquia marcadas con el símbolo de activación al llegar a esta casilla al final de su movimiento.
+		</p>
+		</div>
+		</div>	
+		
+				
+		<div class="casillas">
+		<div class="img-casilla" style="background-image: url(images/casilla-segura.png); background-position:center; background-repeat: no-repeat; background-size: 100%">
+		
+		</div>
+		<div class="texto-casilla">
+		<p><b>Casillas seguras</b><br/>
+		En estas casillas el jugador no es afectado por las momias, las trampas o las tarjetas usadas por otros jugadores.
+		</p>
+		</div>
+		</div>	
+		
+				
+		<div class="casillas">
+		<div class="img-casilla" style="background-image: url(images/casilla-momia.png); background-position:center; background-repeat: no-repeat; background-size: 100%">
+		
+		</div>
+		<div class="texto-casilla">
+		<p><b>Casilla momia</b><br/>
+		Las momias van a estas casillas cuando una Tarjeta Reliquia lo indique.
+		</p>
+		</div>
+		</div>	
+		
+				
+		<div class="casillas" style="margin-bottom: 0;">
+		<div class="img-casilla" style="background-image: url(images/casilla-llave.png); background-position:center; background-repeat: no-repeat; background-size: 100%">
+		
+		</div>
+		<div class="texto-casilla" >
+		<p><b>Casilla llave</b><br/>
+		Son las casillas en donde están los token de llave, el jugador en esa casilla recibe una Tarjeta Llave para abrir la puerta de la zona en la que está. La casilla donde está el token de llave pasa a ser solamente una casilla de llave, así que si había un tesoro, reliquia, etc. ya no estará allí. <b>El token de llave no se puede ubicar sobre agujeros, rampas, mazmorras, casillas momia o frente a las casillas pasaje.</b>
+		</p>
+		</div>
+		</div>	
+		
+		
+		
+		<br/>
+		
+		<div class="casillas">
+		<div class="img-casilla" style="background-image: url(images/casilla-pasaje.png); background-position:center; background-repeat: no-repeat; background-size: 100%">
+		
+		</div>
+		<div class="texto-casilla">
+		<p><b>Casilla pasaje</b><br/>
+		Sirven para pasar rápidamente de un lugar del tablero a otro pero se debe ver con atención los símbolos en la entrada a estas casillas porque muestran si son entradas o salidas. El color de los simbolos indica por cúal de ellas se debe salir luego de usarlas. Esta <b>también se considera una casilla segura.</b> Sin importar si el jugador aún tiene casillas por mover en su turno, si usa un pasaje el turno termina en el pasaje de salida que corresponda.
+		</p>
+		</div>
+		</div>	
+		<div class="casillas">
+		<div class="img-casilla larga" style="background-image: url(images/casilla-puerta.png); background-position:center; background-repeat: no-repeat; background-size: 100%">
+		
+		</div>
+		<div class="texto-casilla">
+		<p><b>Casilla Puerta</b><br/>
+		El jugador debe ubicarse sobre la casilla marcada de color amarillo para pasar de una zona a otra entregando la llave o las llaves y los tesoros requeridos. El turno de un jugador termina al llegar a esta casilla y podrá seguir avanzando en la siguiente ronda.
+		</p>
+		</div>
+		</div>			
+		
+		<P class="sub2">Casillas Trampa</b>
+		<p>
+		Son casillas que pueden afectar negativamente a los jugadores, el App se encarga de activar estas casillas durante el turno de cada jugador, sin embargo, <b>las casillas solo se activan en la zona en donde está el jugador en turno. </b> Las casillas trampa en el juego son:
+		</p>
+		
+		<div class="casillas">
+		<div class="img-casilla" style="background-image: url(images/casilla-mazmorra.png); background-position:center; background-repeat: no-repeat; background-size: 100%">
+		
+		</div>
+		<div class="texto-casilla" >
+		<p><b>Casilla mazmorra</b><br/>
+		Allí van los jugadores cuando una momia los atrapa o cuando una Tarjeta Reliquia lo indique. Cada jugador debe ocupar su propia mazmorra marcada con su número de jugador a menos que se indique otra cosa.
+		</p>
+		</div>
+		</div>	
+		
+		<div class="casillas">
+		<div class="img-casilla" style="background-image: url(images/casilla-roca.png); background-position:center; background-repeat: no-repeat; background-size: 100%">
+	
+		</div>
+		<div class="texto-casilla">
+		<p><b>Casillas roca</b><br/>
+		Las rocas afectan todas las casillas frente a ellas hasta llegar a un agujero. Si una piedra alcanza a un jugador, el jugador perderá su tarjeta de tesoro más valiosa y una tarjeta de reliquia al azar escogida por otro jugador.
+		</p>
+		</div>
+		</div>	
+		
+		<div class="casillas">
+		<div class="img-casilla" style="background-image: url(images/casilla-estaca.png); background-position:center; background-repeat: no-repeat; background-size: 100%">
+	
+		</div>
+		<div class="texto-casilla">
+		<p><b>Casilla estacas</b><br/>
+		Las estacas afectan solamente la casilla en donde se encuentran. El jugador afectado por las estacas pierde un tesoro al azar elegido por otro jugador.
+		</p>
+		</div>
+		</div>	
+		
+		<div class="casillas">
+		<div class="img-casilla" style="background-image: url(images/casilla-escarabajo.png); background-position:center; background-repeat: no-repeat; background-size: 100%">
+		
+		</div>
+		<div class="texto-casilla">
+		<p><b>Casilla escarabajo</b><br/>
+		Los escarabajos se mueven adelante, atrás y a los lados pero solo una casilla de distancia desde donde se encuentran. Si un jugador se encuentra con estos insectos solo podrá moverse 3 casillas en su próximo turno pero si el jugador es afectado más de 1 vez antes de que sea su turno de moverse, podrá moverse solo 1 casilla.
+		</p>
+		</div>
+		</div>	
+		
+		<div class="casillas">
+		<div class="img-casilla" style="background-image: url(images/casilla-fuego.png); background-position:center; background-repeat: no-repeat; background-size: 100%">
+		
+		</div>
+		<div class="texto-casilla">
+		<p><b>Casilla pilar de fuego</b><br/>
+		Siempre se encuentra en el centro de cuatro casillas las cuales alcanza con sus llamas. El jugador que es alcanzado por estas llamas pierde dos Tarjetas Reliquia al azar que serán escogidas por otro jugador.
+		</p>
+		</div>
+		</div>	
+		
+		<div class="casillas">
+		<div class="img-casilla" style="background-image: url(images/casilla-hueco.png); background-position:center; background-repeat: no-repeat; background-size: 100%">
+		
+		</div>
+		<div class="texto-casilla">
+		<p><b>Casilla agujero</b><br/>
+		Es un agujero en el suelo que no se puede saltar sin la <b>reliquia apropiada.</b>
+		</p>
+		</div>
+		</div>	
+		
+		<div class="casillas" style="margin-bottom: 0;">
+		<div class="img-casilla" style="background-image: url(images/casilla-rampa.png); background-position:center; background-repeat: no-repeat; background-size: 100%">
+		
+		</div>
+		<div class="texto-casilla" >
+		<p><b>Casilla rampa</b><br/>
+		El jugador solo puede moverse sobre estas casillas en la dirección que ellas indican a menos que el jugador posea la <b>reliquia apropiada. </b>
+		</p>
+		</div>
+		</div>	
+		
+		<div class="destacado-reglas">
+		<p>
+		Recuerda que al pasar sobre las casillas rampa no descuentas casillas de tus movimientos.		
+		</p>
+		</div>	
+		
+		</div>
+		
+		<div id="menu7-c" class="seccion-ayuda">
+		<p class="titulo"><b>7</b> <br/><br/>Momias</p>
+		
+		<p>
+		Las momias son las que cuidan los tesoros y reliquias guardados en la pirámide, por eso su misión es atrapar a cualquier intruso y enviarlo a las mazmorras de cada zona.</p>
+		
+		<div class="destacado-reglas">
+		<p>
+		<span style="font-size: 16px;">Casillas no permitidas</span><br><br>
+		Las momias no pueden ubicarse al inicio del juego en las siguientes casillas: Casillas Rampa, Casillas Agujero, Casillas Puerta, Mazmorras y Casillas Llave.		
+		</p>
+		</div>	
+
+		<p><b>Movimientos de las momias</b></p>
+
+		<p>Las momias pueden girar y caminar como los demás jugadores siendo controladas por el App. Al igual que las trampas, las momias solo se mueven en la zona en donde está el jugador en turno.
+</p>
+<p>
+		Las momias no pueden cruzar los muros que dividen las zonas pero si pueden cruzar los muros delgados de su zona usando un artefacto llamado <b>Llave Mística.</b> Si una momia va a usar una llave durante su movimiento, el App se encarga de informarlo.
+</p>
+<p>
+		Las momias pueden circular libremente por el tablero pasando por encima de rampas y agujeros aunque al hacerlo si descuentan casillas de sus movimientos. Si el último paso deja a la momia en una casilla no permitida se debe mover a una casilla habilitada junto a la no permitida y será el jugador en turno quien escoja cual casilla será.
+</p>
+<p>
+		La momia bloquea el camino en donde se ubica, un jugador solo puede pasar por encima de ella con la reliquia adecuada. Si al final de su turno una momia va a ocupar una casilla donde hay otra momia, la momia que estaba inicialmente en la casilla debe ir a una casilla momia. Si hay un jugador en la casilla final del movimiento, el jugador va a su mazmorra. 
+</p>
+
+		<div class="destacado-reglas">
+		<p>
+				La momia nunca podrá quedar en una casilla rodeada por completo por muros gruesos o de zona que le impidan seguir desplazandose. <b>Si su movimiento va a terminar en una casilla sí, se debe dejar a la momia en la casilla anterior.</b>		
+		</p>
+		</div>
+<p>
+	<b>	Atrapado por la momia</b>
+</p>
+<p>
+		Las momias atrapan a los jugadores que pueden ver frente a ellas y los envían a su mazmorra. Si hay un jugador frente a otro, solo el que está justo frente a la momia irá a la mazmorra en ese turno, pero si en el siguiente turno, la momia sigue viendo al otro jugador, él también irá a su mazmorra.
+	</p>	
+	
+	</div>
+	
+		<div id="menu8-c" class="seccion-ayuda">
+		<p class="titulo"><b>8</b> <br/><br/>Tarjetas</p>
+		<p>
+		Existen dos tipos de tarjetas en el juego. Siempre se deben tomar de la parte superior de su grupo y después de usarlas se deben poner de vuelta debajo. 
+		</p>
+		
+		<div class="casillas">
+		<div class="img-casilla tarjeta" style="background-image: url(images/tarjeta-tesoro.png); background-position:center; background-repeat: no-repeat; background-size: 100%">
+		
+		</div>
+		<div class="texto-casilla">
+		<p><b>Tarjetas Tesoro</b><br/><br/>
+		Son necesarias para abrir las puertas en cada nivel del tablero sumando el número total de Myts obtenidos. Cada jugador puede tener un máximo de 8 de ellas a la vez. Para cambiar una de ellas debe renunciar a una de su mano y luego tomar una del grupo de Tarjetas Tesoro.</b>
+		</p>
+		</div>
+		</div>	
+		
+		
+		<div class="casillas">
+		<div class="img-casilla tarjeta" style="background-image: url(images/tarjeta-reliquia.png); background-position:center; background-repeat: no-repeat; background-size: 100%">
+		</div>
+		<div class="texto-casilla">
+		<p><b>Tarjetas Reliquia</b><br/><br/>
+		Dan ventajas durante la partida, obtenerlas es muy importante. Cada jugador puede tener un máximo de 4 de ellas a la vez. Para cambiar una de ellas debe renunciar a una de su mano y luego tomar una del grupo de Tarjetas Reliquia.</b>
+		</p>
+		</div>
+		</div>	
+		<p>
+		Los jugadores que no logren llegar a la puerta final de la partida, suman los Myts de sus Tarjetas Tesoro, reciben 5 Myts si lograron llegar a la zona elegida como fin del juego, reciben 5 Myts por cada Tarjeta Reliquia que tengan y 10 Myts más por cada llave. Al sumar los Myts sabrán quien es el segundo, tercero y cuarto lugar del juego.	
+		</p>
+		</div>		
+		
+		</div>
+		
+		
+		
+		
+		
+		</div> <!-- fin textos ayuda-->
+
+		</div>
+
+		</div> <!-- fin pantalla 3: ayuda-->
+
+</div>
+
+<div id="contenedor-menu-boton" style="overflow:hidden;">
+
+<div id="barra-menu" style="width: 160px; height:45px; background-image:url(images/barra-fondo-menu.png); background-size:100%; background-repeat: no-repeat; background-position: 0 -5px; box-sizing:border-box; padding: 0px 10px 0 10px; margin-right:10px; overflow: hidden; float:right">
+
+<div id="boton-cerrar" class="close" style="width: 45px; height:50px; background-image:url(images/boton-cerrar.png); background-size:100%; background-repeat: no-repeat; background-position:center; ; box-sizing:border-box; float:right; cursor:pointer;">
+</div>
+
+
+<div id="boton-tesoro" style="width: 45px; height:50px; background-image:url(images/boton-tesoro.png); background-size:100%; background-repeat: no-repeat; background-position:center; ; box-sizing:border-box; float:right; cursor:pointer;">
+</div>
+
+<div id="boton-ayuda" style="width: 45px; height:50px; background-image:url(images/boton-ayuda.png); background-size:100%; background-repeat: no-repeat; background-position:center; ; box-sizing:border-box; float:right; cursor:pointer;">
+</div>
+
+</div>
+
+</div> <!-- fin contenedor de menu y boton-->
+
+<div id="boton-principal" style="width: 100%; height: 110px; background-size: 80%; background-repeat: no-repeat;background-position: center 0px; box-sizing: border-box; margin: 10px auto 5px auto;">
+
+<div id="aviso-no-cambios" style="color:#FFFFFF; background-color: rgba(0, 0, 0, 0.8); width:100%; height:100%; padding-top:35px; box-sizing:border-box; position:relative; line-height:18px;">
+No haz activado nada. ¡Eres muy bueno escabuyendote!.
+</div>
+</div>
+
+
+<div id="contenedor-trampas" style="width:100%; height: 90px; overflow: hidden; padding: 0 10px 0 10px; box-sizing:border-box; margin-top:15px">
+
+<div id="trampas-1" style="width:25%; float: left; height:100%; background-image:url(images/trampa1-fondo.png); background-size:100%; background-repeat: no-repeat; background-position:top; box-sizing:border-box; margin: 0 auto 20px auto; padding-top: 5px;">
+<div id="trampa1-tapa" class="trampas_juego" style="width:100%; height:100%; background-image:url(images/trampa1-tapa.png); background-size:80%; background-repeat: no-repeat; box-sizing:border-box;">
+
+</div>
+
+</div>
+<div id="trampas-2"  style="width:25%; float: left; height:100%; background-image:url(images/trampa2-fondo.png); background-size:100%; background-repeat: no-repeat; background-position:top; box-sizing:border-box; margin: 0 auto 20px auto; padding-top: 5px;">
+<div id="trampa2-tapa" class="trampas_juego" style="width:100%; height:100%; background-image:url(images/trampa2-tapa.png); background-size:80%; background-repeat: no-repeat; box-sizing:border-box;">
+
+</div>
+
+</div>
+<div id="trampas-3" style="width:25%; float: left; height:100%; background-image:url(images/trampa3-fondo.png); background-size:100%; background-repeat: no-repeat; background-position:top; box-sizing:border-box; margin: 0 auto 20px auto; padding-top: 5px;">
+<div id="trampa3-tapa"  class="trampas_juego" style="width:100%; height:100%; background-image:url(images/trampa3-tapa.png); background-size:80%; background-repeat: no-repeat; box-sizing:border-box;">
+
+</div>
+
+</div>
+
+<div id="trampas-4" style="width:25%; float: left; height:100%; background-image:url(images/trampa4-fondo.png); background-size:100%; background-repeat: no-repeat; background-position:top; box-sizing:border-box; margin: 0 auto 20px auto; padding-top: 5px;">
+<div id="trampa4-tapa" class="trampas_juego" style="width:100%; height:100%; background-image:url(images/trampa4-tapa.png); background-size:80%; background-repeat: no-repeat; box-sizing:border-box;">
+
+</div>
+
+</div>
+
+
+
+</div>
+
+<div id="info-efecto-trampas" style="padding: 7px 10px; box-sizing: border-box; width:100%; background-color:rgba(0,0,0, 0.8); color: #FFFFFF; font-size:14px; line-height:18px;">
+...
+</div>
+
+</div><!-- fin contenedor superior interfaz principal-->
+
+<div id="contenedor-inferior-interfaz" class="mostrar" style="width: 100%; height:400px; position:absolute; z-index: 11;">
+
+<div id="momia" style="width: 100%; height: 250px; position:absolute; z-index:20;">
+
+</div>
+
+<div id="tesoros" class="mostrar" style="width: 100%; height: 330px; position: absolute; padding: 0 20px 0 20px; box-sizing: border-box; z-index:10;">
+<div id="tesoros-1" style="width: 33%; height: 100%; float: left; background-image: url(images/tesoros-fondo.png); background-position: top; background-repeat: no-repeat; background-size: 100%; color: #cfb70e; font-size: 30px; font-weight:bold; padding: 25px 0">
+<div>0</div>
+<div style="padding-top:90px; color:#231000; font-size:20px;">1</div>
+
+</div>
+<div id="tesoros-2" style="width: 33%; height: 100%; float: left; background-image: url(images/tesoros-fondo.png); background-position: top; background-repeat: no-repeat; background-size: 100%; color: #cfb70e; font-size: 30px; font-weight:bold; padding: 25px 0">
+<div>0</div>
+<div style="padding-top:90px; color:#231000; font-size:20px;">2</div>
+</div>
+<div id="tesoros-3" style="width: 33%; height: 100%; float: left; background-image: url(images/tesoros-fondo.png); background-position: top; background-repeat: no-repeat; background-size: 100%; color: #cfb70e; font-size: 30px; font-weight:bold; padding: 25px 0">
+<div>0</div>
+<div style="padding-top:90px; color:#231000; font-size:20px;">3</div>
+</div>
+</div>
+
+<div id="piedras-controles" style="position: absolute; width: 100%; height: 160px; z-index: 21; background-image: url(images/piedras-sobre-momia.png); background-position: top; background-repeat: no-repeat; background-size: 100%;">
+
+
+<div id="controles-momia">
+
+<div id="derecha-momia" style="width: 30%; height: 95px; background-image: url(images/momia-derecha.png); background-repeat: no-repeat; background-size: 100%; float: left;">
+</div>
+<div id="pasos-momia" style="width: 40%; height: 100%; background-image: url(images/pasos-momia.png); background-position: top; background-repeat: no-repeat; background-size: 90%; float: left; text-align: center; line-height: 120px; color: rgba(256, 256, 256, 0.85); font-size: 40px; font-weight:bold;">
+0
+
+</div>
+<div id="izquierda-momia" style="width: 30%; height: 95px; background-image: url(images/momia-izquierda.png); background-repeat: no-repeat; background-size: 100%; float: left;">
+</div>
+</div>
+</div>
+</div> <!-- fin contenedor inferior interfaz principal-->
+
+<!-- 4. ayuda en pantalla
+
+<div id="ayuda-en-pantalla">
+<div id="activar-ayuda-pantalla" style="width:100%; height:30px; background-color:red; color:#FFFFFF; text-align:center; position:absolute; bottom: 0; z-index: 20;"> Ver Ayuda en pantalla </div>
+</div>
+ -->
+
+</div><!-- fin interfaz de jugador-->
+
+
+
+</div>
+
+<script>
+$(window).load(function(){
+setTimeout(function(){$("#jugar-juego").css("display", "block");}, 2000);
+})
+
+</script>
+</body>
+</html>
